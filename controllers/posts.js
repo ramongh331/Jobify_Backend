@@ -6,7 +6,7 @@ const router = Router()
 
 
 // Index Route
-  router.get("/posts", async (req, res) => {
+  router.get("/", auth, async (req, res) => {
     try {
         const {username} = req.payload
         res.status(200).json(await Post.find({username}))
@@ -18,9 +18,12 @@ const router = Router()
 
 
 // Create Route
-router.post("/posts", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try{
+    console.count()
+    console.log(req.payload)
     const {username} = req.payload
+    console.count()
     req.body.username = username
     res.status(200).json(await Post.create(req.body))
 
@@ -30,7 +33,7 @@ router.post("/posts", async (req, res) => {
 })
 
 // Update Route
-router.put('/posts/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   try {
     const {username} = req.payload
     req.body.username = username
@@ -43,7 +46,7 @@ router.put('/posts/:id', async (req, res) => {
 })
 
 // Delete Route
-router.delete('/posts/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const {id} = req.params
     res.status(200).json(await Post.findByIdAndRemove(id))
@@ -52,13 +55,14 @@ router.delete('/posts/:id', async (req, res) => {
   }
 })
 
-// // Show Route
-// router.get("/posts/:id", async (req, res) => {
-//   try {
-//       res.json(await Post.findById(req.params.id))
-//   } catch (error) {
-//       res.status(400).json(error);
-//   }
-// })
+// Show Route
+router.get("/:id", async (req, res) => {
+  try {
+    const {id} = req.params
+    res.status(200).json(await Post.findById(id))
+  } catch (error) {
+      res.status(400).json(error);
+  }
+})
 
 module.exports = router

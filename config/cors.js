@@ -1,4 +1,4 @@
-var whitelist = ['https://effortless-cajeta-61b011.netlify.app']
+var whitelist = ['https://jobify-personal-api.onrender.com']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
